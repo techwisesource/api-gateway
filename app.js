@@ -4,6 +4,9 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+//middlewares
+const verifyToken = require("./middlewares/verifyToken.js");
+
 //declare route
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -24,8 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // register route
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/courses', coursesRouter);
-app.use('/media', mediaRouter);
+app.use('/courses', verifyToken, coursesRouter);
+app.use('/media', verifyToken, mediaRouter);
 app.use('/orders', ordersRouter);
 app.use('/payments', paymentsRouter);
 
