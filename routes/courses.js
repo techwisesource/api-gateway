@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('course');
-});
+const courseHandler = require('./handler/course');
+
+router.post("/", courseHandler.create);
+
 
 module.exports = router;

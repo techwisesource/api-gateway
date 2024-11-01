@@ -10,12 +10,12 @@ const verifyToken = require("./middlewares/verifyToken.js");
 //declare route
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
-const coursesRouter = require("./routes/courses");
 const mediaRouter = require("./routes/media");
 const ordersRouter = require("./routes/orders");
 const paymentsRouter = require("./routes/payments");
 const refreshTokensRouter = require("./routes/refreshTokens");
 const mentorsRouter = require("./routes/mentors"); 
+const coursesRouter = require("./routes/courses");
 
 
 const app = express();
@@ -29,11 +29,11 @@ app.use(express.static(path.join(__dirname, "public")));
 // register route
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-app.use("/courses", verifyToken, coursesRouter);
+app.use("/courses", coursesRouter);
 app.use("/media", verifyToken, mediaRouter);
 app.use("/orders", ordersRouter);
 app.use("/payments", paymentsRouter);
 app.use("/refresh_tokens", refreshTokensRouter);
-app.use("/mentors", mentorsRouter);
+app.use("/mentors", verifyToken, mentorsRouter);
 
 module.exports = app;
