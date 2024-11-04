@@ -1,3 +1,4 @@
+const { response } = require('../../../app');
 const apiAdapter = require('../../apiAdapter');
 
 const {
@@ -8,13 +9,17 @@ const api = apiAdapter(URL_SERVICE_COURSE);
 
 module.exports = async (req, res) => {
     try {
-        const id = req.params.id;
-        const review = await api.delete(`/api/reviews/${id}`);
+        const userId = req.user.data.id;
+
+        const review = await api.post('/api/reviews', {
+            user_id: userId,
+            ...req.body
+        });
         return res.json(review.data);
     } catch (error) {
         console.error(error); // Log detail error di console
         
-        //handling error when service course is off
+        //handling error when service media is off
         if (error.code === 'ECONNREFUSED') {
             return res.status(500).json({status: 'error', message: 'service unavailable'});
         }
